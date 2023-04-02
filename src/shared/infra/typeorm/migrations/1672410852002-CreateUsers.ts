@@ -9,7 +9,8 @@ export class CreateUsers1672410852002 implements MigrationInterface {
                 columns: [
                     {
                         name: "id",
-                        type: "uuid"
+                        type: "uuid",
+                        isPrimary: true
                     },
                     {
                         name: "name",
@@ -21,24 +22,24 @@ export class CreateUsers1672410852002 implements MigrationInterface {
                         isUnique: true
                     },
                     {
-                        name:"password",
+                        name: "password",
                         type: "varchar"
                     },
                     {
-                        name:"email",
+                        name: "email",
                         type: "varchar"
                     },
                     {
-                        name:"driver_license",
+                        name: "driver_license",
                         type: "varchar"
                     },
                     {
-                        name:"isAdmin",
+                        name: "isAdmin",
                         type: "boolean",
                         default: false
                     },
                     {
-                        name:"created_at",
+                        name: "created_at",
                         type: "timestamp",
                         default: "now()"
                     }
