@@ -10,6 +10,7 @@ class CarsRepository implements ICarsRepository {
     this.repository = getRepository(Car)
   }
 
+
   async create({
     brand,
     category_id,
@@ -62,6 +63,16 @@ class CarsRepository implements ICarsRepository {
   async findById(id: string): Promise<Car> {
     const car = await this.repository.findOne(id);
     return car
+  }
+
+  async updateAvailable(id: string, available: boolean): Promise<void> {
+    await this.repository
+    .createQueryBuilder()
+    .update()
+    .set({ available })
+    .where("id = :id")
+    .setParameters({ id })
+    .execute()
   }
 }
 

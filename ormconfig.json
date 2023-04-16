@@ -11,6 +11,6 @@
     "migrationsDir": "./src/shared/infra/typeorm/migrations"
   },
   "entities": [
-    "./src/modules/**/entities/*.ts"
+    "./src/modules/**/infra/typeorm/entities/*.ts"
   ]
 }
