@@ -2,8 +2,6 @@ import { compare } from "bcryptjs"
 import { sign } from "jsonwebtoken"
 import { inject, injectable } from "tsyringe"
 import { AppError } from "@shared/errors/AppError"
-
-
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository"
 import { IUsersTokensRepository } from "@modules/accounts/repositories/IUserstokensRepository"
 import auth from "@config/auth"
@@ -28,7 +26,7 @@ class AuthenticateUserUseCase {
   constructor(
     @inject("UsersRepository")
     private usersRepository: IUsersRepository,
-    @inject("UsersTokens")
+    @inject("UsersTokensRepository")
     private usersTokensRepository: IUsersTokensRepository,
     @inject("DayjsDateProvider")
     private dateProvider: IDateProvider

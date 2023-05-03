@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn 
 import { User } from "./User"
 import { v4 as uuidv4 } from "uuid"
 
-@Entity("users_token")
+@Entity("users_tokens")
 class UserTokens {
   @PrimaryColumn()
   id: string
@@ -22,8 +22,8 @@ class UserTokens {
   @CreateDateColumn()
   created_at: Date
 
-  constructor(){
-    if (!this.id){
+  constructor() {
+    if (!this.id) {
       this.id = uuidv4()
     }
   }
