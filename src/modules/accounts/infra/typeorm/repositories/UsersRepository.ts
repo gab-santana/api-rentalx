@@ -1,14 +1,15 @@
 import { IUsersRepository } from "../../../repositories/IUsersRepository";
 import { ICreateUserDTO } from "../../../dtos/ICreateUserDTO";
-import { getRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { User } from "../entities/User";
+import dataSource from "@shared/infra/typeorm"
 
 class UsersRepository implements IUsersRepository {
 
   private repository: Repository<User>
 
   constructor() {
-    this.repository = getRepository(User)
+    this.repository = dataSource.getRepository(User)
   }
 
   async create({
@@ -25,17 +26,17 @@ class UsersRepository implements IUsersRepository {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.repository.findOneBy({ email: email })
+    const user = await this.repository.findOneBy({ email })
     return user
   }
 
   async findById(id: string): Promise<User> {
-    const user = await this.repository.findOneBy({ id: id })
+    const user = await this.repository.findOneBy({ id })
     return user
   }
 
   async deleteById(id: string): Promise<void> {
-    const user = await this.repository.findOneBy({ id: id })
+    const user = await this.repository.findOneBy({ id })
     await this.repository.delete(user)
   }
 

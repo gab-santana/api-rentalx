@@ -5,9 +5,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules --respawn --poll src/shared/infra/http/server.ts",
-    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli -d src/shared/infra/typeorm/index.ts",
     "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles",
     "seed:admin": "ts-node-dev src/shared/infra/typeorm/seed/admin.ts"
+  },"engines": {
+    "node": ">=14"
   },
   "dependencies": {
     "@types/nodemailer": "^6.4.7",

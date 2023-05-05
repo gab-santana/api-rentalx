@@ -4,6 +4,7 @@ import { IUsersRepository } from "../IUsersRepository";
 
 class UsersRepositoryInMemory implements IUsersRepository {
 
+
   users: User[] = []
 
   async create({ driver_license, email, name, password }: ICreateUserDTO): Promise<void> {
@@ -22,6 +23,10 @@ class UsersRepositoryInMemory implements IUsersRepository {
   }
   async findById(id: string): Promise<User> {
     return this.users.find(user => user.id === id)
+  }
+  async deleteById(id: string): Promise<void> {
+    const user = this.users.find((user) => user.id === id)
+    this.users.splice(this.users.indexOf(user))
   }
 
 }

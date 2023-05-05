@@ -1,15 +1,16 @@
-import { Connection, createConnection } from "typeorm"
-import { v4 as uuid } from "uuid"
 import { hash } from "bcryptjs"
 import request from "supertest"
+import { DataSource } from "typeorm"
+import { v4 as uuid } from "uuid"
 import { app } from "@shared/infra/http/app"
+import { createConnection } from "@shared/infra/typeorm"
 
 
-let connection: Connection
+let connection: DataSource
 
 describe("List Categories", () => {
   beforeAll(async () => {
-    connection = await createConnection()
+    connection = await createConnection("localhost")
     await connection.runMigrations()
 
     const id = uuid()
@@ -22,7 +23,7 @@ describe("List Categories", () => {
 
   afterAll(async () => {
     await connection.dropDatabase()
-    await connection.close()
+    await connection.destroy()
   })
 
   it("Should be able to list all categories", async () => {
@@ -32,15 +33,16 @@ describe("List Categories", () => {
         password: "admin"
       })
 
-    const { token } = responseToken.body
+    const { refresh_token } = responseToken.body
 
     await request(app)
       .post("/categories")
       .send({
         name: "Category SuperTest",
         description: "Category SuperTest"
-      }).set({
-        Authorization: `Bearer ${token}`
+      })
+      .set({
+        Authorization: `Bearer ${refresh_token}`
       })
 
     const response = await request(app).get("/categories")

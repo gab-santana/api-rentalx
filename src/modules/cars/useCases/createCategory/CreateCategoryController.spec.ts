@@ -1,16 +1,17 @@
-import { app } from "@shared/infra/http/app"
-import request from "supertest"
-import createConnection from "@shared/infra/typeorm"
-import { Connection } from "typeorm"
 import { hash } from "bcryptjs"
+import request from "supertest"
+import { DataSource } from "typeorm"
 import { v4 as uuid } from "uuid"
+import { app } from "@shared/infra/http/app"
+import {createConnection} from "@shared/infra/typeorm"
 
-let connection: Connection
+
+let connection: DataSource
 
 describe("Create Category Controller", () => {
 
   beforeAll(async () => {
-    connection = await createConnection()
+    connection = await createConnection("localhost")
     await connection.runMigrations()
 
     const id = uuid()
@@ -23,7 +24,7 @@ describe("Create Category Controller", () => {
 
   afterAll(async () => {
     await connection.dropDatabase()
-    await connection.close()
+    await connection.destroy()
   })
 
   it("Should be able to create a new category", async () => {
@@ -33,7 +34,7 @@ describe("Create Category Controller", () => {
         password: "admin"
       })
 
-    const { token } = responseToken.body
+    const { refresh_token } = responseToken.body
 
     const response = await request(app)
       .post("/categories")
@@ -41,7 +42,7 @@ describe("Create Category Controller", () => {
         name: "Category SuperTest",
         description: "Category SuperTest"
       }).set({
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${refresh_token}`
       })
 
     expect(response.status).toBe(201)
@@ -54,7 +55,7 @@ describe("Create Category Controller", () => {
         password: "admin"
       })
 
-    const { token } = responseToken.body
+    const { refresh_token } = responseToken.body
 
     const response = await request(app)
       .post("/categories")
@@ -62,7 +63,7 @@ describe("Create Category Controller", () => {
         name: "Category SuperTest",
         description: "Category SuperTest"
       }).set({
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${refresh_token}`
       })
 
     expect(response.status).toBe(400)
